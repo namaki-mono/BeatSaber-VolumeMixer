@@ -1,7 +1,7 @@
 # Volume Mixer
 A Beat Saber mod that allows the user to change the volume of applications in-game from the main menu
 
-![image](https://github.com/namaki-mono/BeatSaber-VolumeMixer/assets/81204441/b4eb2eb9-f0c0-4907-998c-c5007c1ab3bf)
+![image](https://github.com/namaki-mono/BeatSaber-VolumeMixer/assets/81204441/d6ed3fe8-636a-4e91-8ef6-ce07703b6c74)
 ![image](https://github.com/namaki-mono/BeatSaber-VolumeMixer/assets/81204441/1f583a42-75fb-49b3-a377-db10f78e6ac1)
 
 
