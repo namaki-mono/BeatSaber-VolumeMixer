@@ -2,6 +2,8 @@
 A Beat Saber mod that allows the user to change the volume of applications in-game from the main menu
 
 ![image](https://github.com/namaki-mono/BeatSaber-VolumeMixer/assets/81204441/b4eb2eb9-f0c0-4907-998c-c5007c1ab3bf)
+![image](https://github.com/namaki-mono/BeatSaber-VolumeMixer/assets/81204441/1f583a42-75fb-49b3-a377-db10f78e6ac1)
+
 
 The first 4 characters identify the device, and the characters following the slash indicate which source's volume will be modified
 
@@ -12,6 +14,8 @@ Download the latest version of the mod [here](https://github.com/namaki-mono/Bea
 
 ## Configuration
 Edit `Beat Saber\UserData\VolumeMixer.json` (this file will be created automatically when the game is launched with this mod installed)
+
+There is no in-game settings page at the moment. This may be added in the future
 
 ### Configuration Options
 - `Enabled` - Toggles the mod on or off
