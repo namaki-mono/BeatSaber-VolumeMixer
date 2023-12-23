@@ -1,4 +1,4 @@
-using BeatSaberMarkupLanguage.ViewControllers;
+﻿using BeatSaberMarkupLanguage.ViewControllers;
 using BeatSaberMarkupLanguage.Attributes;
 using System;
 using System.Text;
@@ -7,6 +7,8 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using BeatSaberMarkupLanguage.Components.Settings;
+using System.Threading.Tasks;
 
 namespace VolumeMixer.UI
 {
@@ -26,10 +28,15 @@ namespace VolumeMixer.UI
         private float Volume { get; set; } = 0.0f;
         private float prevVolume;
 
+        [UIValue("muted")]
+        private string MutedText { get; set; } = "🔈";
+
         [UIValue("devices")]
-        private List<object> Devices = new object[] { "" }.ToList();
+        private List<object> Devices { get; set; } = new object[] { "" }.ToList();
         private List<object> devicesClfID = new object[] { "" }.ToList();
 
+        [UIComponent("source-dropdown")]
+        private readonly DropDownListSetting sourceDropdown;
 
         [UIValue("device")]
         private string Device { get; set; } = "";
@@ -63,6 +70,19 @@ namespace VolumeMixer.UI
             delayTimer.Change(delayTime, Timeout.Infinite);
         }
 
+        [UIAction("mute-button-click")]
+        private void MuteButtonClick()
+        {
+            if (MutedText.Equals("🔈") == true)
+            {
+                SetMute(clfID, false);
+            }
+            else if (MutedText.Equals("🔊") == true)
+            {
+                SetMute(clfID, true);
+            }
+        }
+
         [UIAction("device-dropdown-change")]
         private void DeviceDropdownChange(string val)
         {
@@ -75,6 +95,7 @@ namespace VolumeMixer.UI
             clfID = (string) devicesClfID[index];
 
             GetVolume(clfID);
+            GetMuted(clfID);
 
             GetAllDevices(); // Refresh the list on change
         }
@@ -143,7 +164,6 @@ namespace VolumeMixer.UI
                                 }
                             }
                         }
-                        NotifyPropertyChanged("Devices");
 
                         if (firstRun == true)
                         {
@@ -156,9 +176,12 @@ namespace VolumeMixer.UI
 
                                 clfID = (string)devicesClfID[1];
                                 GetVolume(clfID);
-
+                                GetMuted(clfID);
                             }
                         }
+                        // NotifyPropertyChanged doesn't work for dropdowns - janky workaround
+                        sourceDropdown.values = Devices;
+                        sourceDropdown.UpdateChoices();
                     }
                 }
                 catch (Exception)
@@ -168,6 +191,54 @@ namespace VolumeMixer.UI
             };
             proc.Start();
             proc.BeginOutputReadLine();
+        }
+
+        private void GetMuted(string process)
+        {
+            var proc = new Process();
+            proc.StartInfo.FileName = $"{Environment.CurrentDirectory}\\svcl.exe";
+            proc.StartInfo.Arguments = $"/Stdout /GetMute \"{process}\"";
+            proc.StartInfo.CreateNoWindow = true;
+            proc.StartInfo.UseShellExecute = false;
+            proc.StartInfo.RedirectStandardInput = false;
+            proc.StartInfo.RedirectStandardOutput = true;
+            proc.StartInfo.RedirectStandardError = false;
+            proc.OutputDataReceived += (sender, e) =>
+            {
+                try
+                {
+                    int mutedBit = int.Parse(e.Data);
+                    MutedText = (mutedBit == 0) ? "🔊" : "🔈";
+                    NotifyPropertyChanged("MutedText");
+                }
+                catch (Exception)
+                {
+                    // Do nothing
+                }
+            };
+            proc.Start();
+            proc.BeginOutputReadLine();
+        }
+
+        private void SetMute(string process, bool muted)
+        {
+            try
+            {
+                var proc = new Process();
+                proc.StartInfo.FileName = $"{Environment.CurrentDirectory}\\svcl.exe";
+                proc.StartInfo.Arguments = muted ? $"/Mute \"{process}\"" : $"/Unmute \"{process}\"";
+                proc.StartInfo.CreateNoWindow = true;
+                proc.StartInfo.UseShellExecute = false;
+                proc.Start();
+                proc.BeginOutputReadLine();
+                proc.WaitForExit();
+            }
+            catch (Exception)
+            {
+                // Do nothing
+            }
+            MutedText = muted ? "🔈" : "🔊";
+            NotifyPropertyChanged("MutedText");
         }
 
         private void GetVolume(string process)

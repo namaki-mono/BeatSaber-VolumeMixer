@@ -3,7 +3,7 @@
   "id": "VolumeMixer",
   "name": "VolumeMixer",
   "author": "namaki_mono",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A simple in-game volume mixer",
   "gameVersion": "1.29.0",
   "dependsOn": {
