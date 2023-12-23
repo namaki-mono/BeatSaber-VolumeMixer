@@ -1,0 +1,4 @@
+<vertical pref-width='65' spacing='-11' child-control-height='false' child-expand-width='true'>
+  <dropdown-list-setting align='Left' overflow-mode='Truncate' text='' value='device' options='devices' on-change='device-dropdown-change' apply-on-change='true' />
+  <slider-setting text='Volume' min='0' max='100' increment='1' show-buttons='true' value='volume' on-change='volume-slider-change' apply-on-change='true' bind-value='true' active='~active' />
+</vertical>
