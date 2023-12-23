@@ -4,7 +4,7 @@
   "name": "VolumeMixer",
   "author": "namaki_mono",
   "version": "1.0.0",
-  "description": "Adjust the volume of other applications in-game",
+  "description": "A simple in-game volume mixer",
   "gameVersion": "1.29.0",
   "dependsOn": {
     "BSIPA": "^4.2.0"
