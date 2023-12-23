@@ -13,6 +13,8 @@ Download the latest version of the mod [here](https://github.com/namaki-mono/Bea
 ## Configuration
 Edit `Beat Saber\UserData\VolumeMixer.json` (this file will be created automatically when the game is launched with this mod installed)
 
+There is no in-game settings page at the moment. This may be added in the future
+
 ### Configuration Options
 - `Enabled` - Toggles the mod on or off
 - `ShowHandle` - Allows the user to move the volume mixer UI
